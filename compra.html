@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#31583a">
+    <title>Comprar BioCabel</title>
+    <meta name="description" content="Completa tu pedido de champú prebiótico BioCabel por WhatsApp.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --compra-fondo: #f7f6ec;
+            --compra-verde: #31583a;
+            --compra-cafe: #80632f;
+            --compra-texto: #2f4030;
+            --compra-suave: #5d6958;
+            --compra-borde: #d8d0ad;
+            --compra-dorado: #b08d3b;
+        }
+
+        * { box-sizing: border-box; }
+
+        .compra-formulario [hidden] { display: none !important; }
+
+        body {
+            min-width: 320px;
+            margin: 0;
+            background: var(--compra-fondo);
+            color: var(--compra-texto);
+            font-family: "Poppins", sans-serif;
+        }
+
+        a { color: inherit; }
+
+        .compra-header {
+            min-height: 164px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px max(6vw, 20px);
+            background: #e9ddb5;
+        }
+
+        .compra-logo img {
+            display: block;
+            width: 248px;
+            height: 138px;
+            object-fit: contain;
+        }
+
+        .compra-volver {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--compra-verde);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .compra-layout {
+            min-height: calc(100vh - 164px);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
+        }
+
+        .compra-formulario-panel {
+            padding: 44px clamp(24px, 5.8vw, 86px) 56px;
+            background: #e8efe2;
+            border-right: 1px solid #d8d0ad;
+        }
+
+        .compra-formulario-contenido {
+            width: min(100%, 680px);
+            margin: 0 auto;
+        }
+
+        .compra-titulo-seccion {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 4px 0 16px;
+        }
+
+        .compra-titulo-seccion h1,
+        .compra-titulo-seccion h2 {
+            margin: 0;
+            color: var(--compra-texto);
+            font-family: "Poppins", sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .compra-iniciar-sesion {
+            color: var(--compra-verde);
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .compra-formulario {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .compra-campo { min-width: 0; }
+        .compra-campo--ancho { grid-column: 1 / -1; }
+
+        .compra-campo input,
+        .compra-campo select {
+            width: 100%;
+            height: 60px;
+            padding: 0 14px;
+            border: 1px solid var(--compra-borde);
+            border-radius: 16px;
+            background: #fff;
+            color: var(--compra-texto);
+            font: inherit;
+            font-size: 15px;
+        }
+
+        .compra-campo input::placeholder { color: #796f64; opacity: 1; }
+
+        .compra-campo input:focus,
+        .compra-campo select:focus {
+            border-color: var(--compra-verde);
+            outline: 2px solid rgb(63 96 71 / 16%);
+        }
+
+        .compra-opcion {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin: 0 0 26px;
+            color: var(--compra-texto);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .compra-opcion input {
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+            margin: 0;
+            accent-color: var(--compra-dorado);
+        }
+
+        .compra-opcion--final { margin: 4px 0 0; }
+
+        .compra-metodos-entrega {
+            grid-column: 1 / -1;
+            display: grid;
+            gap: 10px;
+            margin: 0 0 14px;
+            padding: 0;
+            border: 0;
+        }
+
+        .compra-metodos-entrega legend {
+            margin-bottom: 8px;
+            color: var(--compra-texto);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .compra-metodo-entrega {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid var(--compra-borde);
+            border-radius: 12px;
+            background: rgb(255 255 255 / 55%);
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .compra-metodo-entrega input {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 auto;
+            margin: 3px 0 0;
+            accent-color: var(--compra-dorado);
+        }
+
+        .compra-metodo-entrega:has(input:checked) {
+            border-color: var(--compra-verde);
+            background: #fff;
+        }
+
+        .compra-metodo-titulo {
+            display: block;
+            color: var(--compra-texto);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .compra-metodo-detalle {
+            display: block;
+            color: var(--compra-suave);
+            font-size: 12px;
+        }
+
+        .compra-metodo-contenido {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .compra-metodo-cabecera {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .compra-metodo-precio {
+            flex: 0 0 auto;
+            color: var(--compra-cafe);
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .compra-metodo-precio--domicilio {
+            font-size: 18px;
+        }
+
+        .compra-metodo-direccion {
+            display: block;
+            margin-top: 3px;
+            color: var(--compra-texto);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .compra-metodo-horarios {
+            margin: 7px 0 0;
+            padding-left: 18px;
+            color: var(--compra-suave);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .compra-resumen {
+            padding: 50px clamp(24px, 5.5vw, 80px);
+            background: #f1e8cc;
+        }
+
+        .compra-resumen-contenido {
+            width: min(100%, 600px);
+            margin: 0 auto;
+        }
+
+        .compra-producto-resumen {
+            display: grid;
+            grid-template-columns: 82px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 18px;
+            margin: 0 0 30px;
+        }
+
+        .compra-miniatura {
+            position: relative;
+            width: 82px;
+            height: 82px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--compra-borde);
+            border-radius: 20px;
+            background: #fff;
+        }
+
+        .compra-miniatura img {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+        }
+
+        .compra-cantidad-burbuja {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 26px;
+            height: 26px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--compra-verde);
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .compra-producto-nombre {
+            color: var(--compra-texto);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .compra-producto-precio {
+            color: var(--compra-texto);
+            font-size: 14px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .compra-cantidad {
+            width: 68px;
+            height: 34px;
+            margin-top: 6px;
+            padding: 4px 8px;
+            border: 1px solid var(--compra-borde);
+            border-radius: 7px;
+            background: #fff;
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .compra-resumen-lineas {
+            display: grid;
+            gap: 10px;
+            margin-top: 32px;
+            padding-top: 22px;
+            border-top: 1px solid var(--compra-borde);
+        }
+
+        .compra-resumen-linea {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            color: var(--compra-texto);
+            font-size: 14px;
+        }
+
+        .compra-resumen-linea--total {
+            margin-top: 10px;
+            color: var(--compra-cafe);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .compra-resumen-ayuda {
+            margin: 22px 0 0;
+            color: var(--compra-suave);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .compra-enviar {
+            grid-column: 1 / -1;
+            min-height: 52px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--compra-verde);
+            color: white;
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .compra-enviar:hover {
+            background: #456d42;
+            box-shadow: inset 0 0 0 2px var(--compra-dorado);
+        }
+
+        .compra-nota {
+            grid-column: 1 / -1;
+            margin: 0;
+            color: var(--compra-suave);
+            font-size: 11px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .compra-metodo-entrega:has(input:checked) {
+            border-color: var(--compra-dorado);
+            box-shadow: 0 0 0 2px rgb(176 141 59 / 14%);
+        }
+
+        @media (max-width: 820px) {
+            .compra-header { min-height: 124px; }
+            .compra-layout { grid-template-columns: 1fr; }
+            .compra-formulario-panel { border-right: 0; }
+            .compra-resumen { grid-row: 2; }
+        }
+
+        @media (max-width: 480px) {
+            .compra-header { padding-inline: 16px; }
+            .compra-logo img {
+                width: 190px;
+                height: 102px;
+            }
+            .compra-formulario-panel,
+            .compra-resumen { padding: 30px 16px 38px; }
+            .compra-formulario { grid-template-columns: 1fr; }
+            .compra-campo--ancho,
+            .compra-opcion,
+            .compra-enviar,
+            .compra-nota { grid-column: auto; }
+            .compra-producto-resumen {
+                grid-template-columns: 68px minmax(0, 1fr) auto;
+                gap: 12px;
+            }
+            .compra-miniatura { width: 68px; height: 68px; }
+            .compra-miniatura img { width: 56px; height: 56px; }
+            .compra-producto-nombre,
+            .compra-producto-precio { font-size: 12px; }
+        }
+
+        .site-left-aligned,
+        .site-left-aligned * {
+            text-align: left !important;
+        }
+    </style>
+</head>
+<body class="site-left-aligned">
+    <header class="compra-header">
+        <a class="compra-logo" href="index.html" aria-label="BioCabel, volver al inicio">
+            <img src="assets/img/logo.png" alt="BioCabel">
+        </a>
+        <a class="compra-volver" href="index.html#c"><i class="bi bi-arrow-left" aria-hidden="true"></i> Volver al producto</a>
+    </header>
+
+    <main class="compra-layout">
+        <section class="compra-formulario-panel" aria-label="Datos de contacto y entrega">
+            <div class="compra-formulario-contenido">
+                <div class="compra-titulo-seccion">
+                    <h1 id="titulo-contacto">Contacto</h1>
+                </div>
+
+                <form class="compra-formulario" id="formulario-compra">
+                    <div class="compra-campo compra-campo--ancho" id="campo-contacto">
+                        <input id="contacto" name="contacto" autocomplete="email" placeholder="Email o número de teléfono móvil" aria-label="Email o número de teléfono móvil" required>
+                    </div>
+                    <label class="compra-opcion" id="opcion-ofertas">
+                        <input type="checkbox" name="ofertas">
+                        Enviarme novedades y ofertas por correo electrónico
+                    </label>
+
+                    <div class="compra-titulo-seccion compra-campo--ancho">
+                        <h2>Métodos de entrega</h2>
+                    </div>
+                    <fieldset class="compra-metodos-entrega">
+                        <legend>Elige cómo recibir tu pedido</legend>
+                        <label class="compra-metodo-entrega">
+                            <input type="radio" name="metodo-entrega" value="domicilio" checked>
+                            <span class="compra-metodo-contenido">
+                                <span class="compra-metodo-cabecera">
+                                    <span class="compra-metodo-titulo">Enviar a domicilio</span>
+                                    <span class="compra-metodo-precio compra-metodo-precio--domicilio">$9.000</span>
+                                </span>
+                                <span class="compra-metodo-detalle">El costo del envío se paga directamente al mensajero.</span>
+                            </span>
+                        </label>
+                        <label class="compra-metodo-entrega">
+                            <input type="radio" name="metodo-entrega" value="recoger">
+                            <span class="compra-metodo-contenido">
+                                <span class="compra-metodo-cabecera">
+                                    <span class="compra-metodo-titulo">recoger en tienda</span>
+                                    <span class="compra-metodo-precio">Gratis</span>
+                                </span>
+                                <span class="compra-metodo-direccion">BIOCABEL — Kr 11 #65C 80 Sur, Bogotá, Colombia</span>
+                                <span class="compra-metodo-detalle" id="fechas-retiro"></span>
+                                <ul class="compra-metodo-horarios" aria-label="Horario para retirar">
+                                    <li>Lunes a viernes de 9:00am a 6:00pm</li>
+                                    <li>Sábado de 9:00am a 1:30pm</li>
+                                </ul>
+                            </span>
+                        </label>
+                    </fieldset>
+                    <div class="compra-campo compra-campo--ancho">
+                        <select id="pais" name="pais" aria-label="País o región" required>
+                            <option value="Colombia" selected>Colombia</option>
+                        </select>
+                    </div>
+                    <div class="compra-campo compra-campo--ancho" id="campo-cedula">
+                        <input id="cedula" name="cedula" autocomplete="off" placeholder="Cédula" aria-label="Cédula">
+                    </div>
+                    <div class="compra-campo">
+                        <input id="nombre" name="nombre" autocomplete="given-name" placeholder="Nombre" aria-label="Nombre" required>
+                    </div>
+                    <div class="compra-campo">
+                        <input id="apellidos" name="apellidos" autocomplete="family-name" placeholder="Apellidos" aria-label="Apellidos" required>
+                    </div>
+                    <div class="compra-campo compra-campo--ancho" id="campo-direccion">
+                        <input id="direccion" name="direccion" autocomplete="street-address" placeholder="Dirección" aria-label="Dirección" required>
+                    </div>
+                    <div class="compra-campo compra-campo--ancho" id="campo-complemento">
+                        <input id="complemento" name="complemento" placeholder="Casa, apartamento, etc. (opcional)" aria-label="Complemento de dirección, opcional">
+                    </div>
+                    <div class="compra-campo compra-campo--ancho" id="campo-departamento">
+                        <select id="departamento" name="departamento" autocomplete="address-level1" aria-label="Departamento de Colombia" required>
+                            <option value="Bogotá D.C." selected>Bogotá D.C.</option>
+                        </select>
+                    </div>
+                    <div class="compra-campo" id="campo-ciudad">
+                        <select id="ciudad" name="ciudad" autocomplete="address-level2" aria-label="Ciudad de Colombia" required>
+                            <option value="Bogotá" selected>Bogotá</option>
+                        </select>
+                    </div>
+                    <div class="compra-campo" id="campo-codigo-postal">
+                        <input id="codigo-postal" name="codigo-postal" autocomplete="postal-code" placeholder="Código postal (opcional)" aria-label="Código postal, opcional">
+                    </div>
+                    <div class="compra-campo compra-campo--ancho">
+                        <input id="telefono" name="telefono" type="tel" autocomplete="tel" placeholder="Teléfono" aria-label="Teléfono" required>
+                    </div>
+                    <label class="compra-opcion compra-opcion--final" id="opcion-guardar">
+                        <input type="checkbox" name="guardar">
+                        Guardar mi información y consultar más rápidamente la próxima vez
+                    </label>
+                    <button class="compra-enviar" type="submit"><i class="bi bi-whatsapp" aria-hidden="true"></i> Continuar por WhatsApp</button>
+                    <p class="compra-nota">El pago del producto se confirma por WhatsApp. Si eliges domicilio, pagas los $9.000 del envío directamente al mensajero.</p>
+                </form>
+            </div>
+        </section>
+
+        <aside class="compra-resumen" aria-label="Resumen del pedido">
+            <div class="compra-resumen-contenido">
+                <div class="compra-producto-resumen">
+                    <div class="compra-miniatura">
+                        <img src="assets/img/producto-reverso-individual-biocabel.jpeg" alt="Champú prebiótico BioCabel">
+                        <span class="compra-cantidad-burbuja" id="cantidad-resumen">1</span>
+                    </div>
+                    <div class="compra-producto-nombre">Champú prebiótico BioCabel<br>
+                        <input class="compra-cantidad" id="cantidad" name="cantidad" type="number" min="1" max="20" value="1" form="formulario-compra" aria-label="Cantidad">
+                    </div>
+                    <div class="compra-producto-precio">COP $38.000</div>
+                </div>
+
+                <div class="compra-resumen-lineas">
+                    <div class="compra-resumen-linea"><span>Subtotal</span><span id="subtotal-compra">COP $38.000</span></div>
+                    <div class="compra-resumen-linea"><span>Envío</span><span id="envio-compra">COP $9.000</span></div>
+                    <div class="compra-resumen-linea compra-resumen-linea--total"><span>Total estimado</span><span id="total-compra">COP $47.000</span></div>
+                </div>
+                <p class="compra-resumen-ayuda">Confirma tu pedido directamente por WhatsApp.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        document.getElementById("formulario-compra").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const datos = new FormData(event.currentTarget);
+            const esDomicilio = datos.get("metodo-entrega") === "domicilio";
+            actualizarFechasRetiro();
+            const cantidadPedido = Number(datos.get("cantidad"));
+            const subtotalPedido = 38000 * cantidadPedido;
+            const costoEnvio = esDomicilio ? 9000 : 0;
+            const mensaje = [
+                "Hola BioCabel, quiero hacer un pedido:",
+                ...(esDomicilio ? [`Contacto: ${datos.get("contacto")}`] : []),
+                `País: ${datos.get("pais")}`,
+                `Nombre: ${datos.get("nombre")} ${datos.get("apellidos")}`,
+                `Cédula: ${datos.get("cedula") || "No indicada"}`,
+                `Método de entrega: ${esDomicilio ? "Envío a domicilio" : "Retirar en Kr 11 #65C 80 Sur, Bogotá, Colombia"}`,
+                ...(!esDomicilio ? [`Retiro disponible: ${fechasRetiro.textContent}`, "Horario de retiro: lunes a viernes de 07:30 a 16:00; sábado de 08:00 a 12:30"] : []),
+                ...(esDomicilio ? [
+                    `Dirección: ${datos.get("direccion")}`,
+                    `Complemento: ${datos.get("complemento") || "No indicado"}`,
+                    `Ciudad: ${datos.get("ciudad")}, ${datos.get("departamento")}, Colombia`,
+                    `Código postal: ${datos.get("codigo-postal") || "No indicado"}`
+                ] : []),
+                `WhatsApp: ${datos.get("telefono")}`,
+                `Cantidad: ${cantidadPedido}`,
+                `Precio unitario: COP $38.000`,
+                `Subtotal: COP $${formatoPrecio.format(subtotalPedido)}`,
+                `Envío: ${esDomicilio ? "COP $9.000; pagar directamente al mensajero" : "Gratis (recogida)"}`,
+                `Total estimado del pedido: COP $${formatoPrecio.format(subtotalPedido + costoEnvio)}`,
+                ...(esDomicilio ? [`Acepta recibir ofertas: ${datos.has("ofertas") ? "Sí" : "No"}`] : [])
+            ].join("\n");
+
+            window.location.href = `https://wa.me/573104816156?text=${encodeURIComponent(mensaje)}`;
+        });
+
+        const cantidad = document.getElementById("cantidad");
+        const cantidadResumen = document.getElementById("cantidad-resumen");
+        const subtotalCompra = document.getElementById("subtotal-compra");
+        const totalCompra = document.getElementById("total-compra");
+        const envioCompra = document.getElementById("envio-compra");
+        const formatoPrecio = new Intl.NumberFormat("es-CO");
+        const opcionesEntrega = document.querySelectorAll('input[name="metodo-entrega"]');
+        const fechasRetiro = document.getElementById("fechas-retiro");
+        const campoContacto = document.getElementById("campo-contacto");
+        const tituloContacto = document.getElementById("titulo-contacto");
+        const contactoInput = document.getElementById("contacto");
+        const paisSelect = document.getElementById("pais");
+        const cedulaInput = document.getElementById("cedula");
+        const opcionOfertas = document.getElementById("opcion-ofertas");
+        const opcionGuardar = document.getElementById("opcion-guardar");
+        const precioUnitario = 38000;
+        const camposDireccion = [
+            { elemento: document.getElementById("campo-direccion"), input: document.getElementById("direccion"), requerido: true },
+            { elemento: document.getElementById("campo-complemento"), input: document.getElementById("complemento"), requerido: false },
+            { elemento: document.getElementById("campo-departamento"), input: document.getElementById("departamento"), requerido: true },
+            { elemento: document.getElementById("campo-ciudad"), input: document.getElementById("ciudad"), requerido: true },
+            { elemento: document.getElementById("campo-codigo-postal"), input: document.getElementById("codigo-postal"), requerido: false }
+        ];
+
+        function obtenerFechasRetiro() {
+            const fechas = [];
+            const fecha = new Date();
+            fecha.setHours(0, 0, 0, 0);
+
+            while (fechas.length < 2) {
+                fecha.setDate(fecha.getDate() + 1);
+                if (fecha.getDay() !== 0) fechas.push(new Date(fecha));
+            }
+
+            return fechas.map(function (dia) {
+                return dia.toLocaleDateString("es-CO", {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "2-digit"
+                });
+            });
+        }
+
+        function actualizarFechasRetiro() {
+            const [primerDia, segundoDia] = obtenerFechasRetiro();
+            fechasRetiro.textContent = `Puedes retirar desde ${primerDia} o ${segundoDia}, según coordinación por WhatsApp.`;
+        }
+
+        function actualizarResumen() {
+            const unidades = Math.max(1, Number(cantidad.value) || 1);
+            const costoEnvio = document.querySelector('input[name="metodo-entrega"]:checked').value === "domicilio" ? 9000 : 0;
+            const subtotal = precioUnitario * unidades;
+            cantidadResumen.textContent = String(unidades);
+            subtotalCompra.textContent = `COP $${formatoPrecio.format(subtotal)}`;
+            envioCompra.textContent = costoEnvio ? `COP $${formatoPrecio.format(costoEnvio)}` : "Gratis";
+            totalCompra.textContent = `COP $${formatoPrecio.format(subtotal + costoEnvio)}`;
+        }
+
+        function actualizarMetodoEntrega() {
+            const esDomicilio = document.querySelector('input[name="metodo-entrega"]:checked').value === "domicilio";
+            tituloContacto.textContent = esDomicilio ? "Contacto" : "Datos para recoger";
+            campoContacto.hidden = !esDomicilio;
+            contactoInput.required = esDomicilio;
+            cedulaInput.required = !esDomicilio;
+            opcionOfertas.hidden = !esDomicilio;
+            opcionGuardar.hidden = !esDomicilio;
+            camposDireccion.forEach(function (campo) {
+                campo.elemento.hidden = !esDomicilio;
+                campo.input.required = esDomicilio && campo.requerido;
+            });
+            actualizarResumen();
+        }
+
+        cantidad.addEventListener("input", actualizarResumen);
+        actualizarFechasRetiro();
+        opcionesEntrega.forEach(function (opcion) {
+            opcion.addEventListener("change", actualizarMetodoEntrega);
+        });
+        actualizarMetodoEntrega();
+    </script>
+</body>
+</html>
